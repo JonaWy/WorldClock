@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Clock</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>World Clock</h1>
+        <p class="subtitle">Time across major cities</p>
+        
+        <div class="controls">
+            <div class="search-container">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input type="text" id="clockSearch" class="search-input" placeholder="Search cities, countries..." aria-label="Search clocks">
+                <button type="button" id="clearSearch" class="search-clear" aria-label="Clear search">×</button>
+            </div>
+            
+            <div class="timezone-selector">
+                <label for="homeTimezone">Your timezone:</label>
+                <select id="homeTimezone" class="timezone-select" aria-label="Select your home timezone">
+                    <!-- Options populated by JS -->
+                </select>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <!-- Featured Home Clock -->
+        <section id="homeClockSection" class="home-clock-section">
+            <div id="homeClock" class="home-clock-card">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+        
+        <!-- Other Clocks Grid -->
+        <section class="clocks-section">
+            <h2 class="section-title" id="clocksTitle">All Timezones</h2>
+            <div class="clocks-grid" id="clocksContainer">
+                <!-- Clocks will be dynamically generated -->
+            </div>
+            <div id="noResults" class="no-results" style="display: none;">
+                <div class="no-results-icon">🔍</div>
+                <p>No clocks found</p>
+                <span>Try a different search term</span>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>Press <kbd>/</kbd> to search • <kbd>Esc</kbd> to clear</p>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

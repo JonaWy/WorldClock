@@ -1,0 +1,633 @@
+/* World Clock - Modern Minimalist Design */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #0f0f13;
+  --bg-secondary: #16161d;
+  --bg-card: #1c1c24;
+  --text-primary: #f5f5f7;
+  --text-secondary: #a1a1a6;
+  --text-muted: #6e6e73;
+  --accent: #5e5ce6;
+  --accent-glow: rgba(94, 92, 230, 0.15);
+  --border: rgba(255, 255, 255, 0.06);
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* Subtle animated background gradient */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at top left, rgba(94, 92, 230, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(230, 92, 200, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 60px 20px 30px;
+}
+
+header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+header .subtitle {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin-bottom: 24px;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+/* Search Container */
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 16px 48px 16px 52px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  outline: none;
+  transition: var(--transition);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.search-clear {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: var(--transition);
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-clear:hover {
+  color: var(--text-primary);
+}
+
+.search-clear.visible {
+  opacity: 1;
+}
+
+.search-input:focus ~ .search-clear {
+  opacity: 0.6;
+}
+
+.search-input:focus ~ .search-clear:hover {
+  opacity: 1;
+}
+
+/* Timezone Selector */
+.timezone-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timezone-selector label {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.timezone-select {
+  padding: 10px 36px 10px 16px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a1a1a6' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.timezone-select:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.timezone-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+/* Main Content */
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 30px 60px;
+}
+
+/* Home Clock Section */
+.home-clock-section {
+  margin-bottom: 40px;
+}
+
+.home-clock-card {
+  background: linear-gradient(135deg, rgba(94, 92, 230, 0.15) 0%, rgba(94, 92, 230, 0.05) 100%);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px 32px;
+  border: 2px solid rgba(94, 92, 230, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-clock-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+
+.home-clock-card .clock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.home-clock-card .clock-location {
+  margin-bottom: 24px;
+}
+
+.home-clock-card .city {
+  font-size: 1.8rem;
+}
+
+.home-clock-card .country {
+  font-size: 1.1rem;
+}
+
+.home-clock-card .clock-time {
+  font-size: 4rem;
+  margin-bottom: 16px;
+}
+
+.home-clock-card .time-diff {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-top: 16px;
+}
+
+.time-diff-icon {
+  font-size: 1.1rem;
+}
+
+/* Clocks Section */
+.clocks-section {
+  margin-top: 20px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  letter-spacing: -0.5px;
+}
+
+/* Clocks Grid */
+.clocks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Clock Card */
+.clock-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  border: 1px solid var(--border);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.clock-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.clock-card:hover {
+  transform: translateY(-4px);
+  background: var(--bg-secondary);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 60px var(--accent-glow);
+}
+
+.clock-card:hover::before {
+  opacity: 1;
+}
+
+.clock-card.hidden {
+  display: none;
+}
+
+/* Clock Location */
+.clock-location {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.clock-location .city {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+.clock-location .country {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.clock-location .region {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-left: auto;
+  opacity: 0.7;
+}
+
+/* Clock Time */
+.clock-time {
+  margin: 16px 0;
+  font-family: "SF Mono", "Fira Code", "Roboto Mono", monospace;
+  font-size: 2.8rem;
+  font-weight: 300;
+  letter-spacing: -2px;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.clock-time .time-part {
+  display: inline-block;
+  min-width: 1.1ch;
+  text-align: center;
+}
+
+.clock-time .separator {
+  color: var(--text-secondary);
+  margin: 0 2px;
+  opacity: 0.5;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.2; }
+}
+
+/* Clock Date */
+.clock-date {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.clock-date .date {
+  opacity: 0.9;
+}
+
+.clock-date .day {
+  opacity: 0.7;
+}
+
+/* AM/PM or 24h indicator */
+.clock-format {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-top: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Time Difference (for non-home clocks) */
+.clock-time-diff {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.clock-time-diff.ahead {
+  color: #4caf50;
+}
+
+.clock-time-diff.behind {
+  color: #ff9800;
+}
+
+.clock-time-diff.same {
+  color: var(--text-secondary);
+}
+
+.diff-arrow {
+  font-size: 1rem;
+}
+
+/* No Results */
+.no-results {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-muted);
+  display: none;
+}
+
+.no-results.visible {
+  display: block;
+}
+
+.no-results-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.4;
+}
+
+.no-results p {
+  font-size: 1.3rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.no-results span {
+  font-size: 0.95rem;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+footer kbd {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.85rem;
+  font-family: "SF Mono", "Fira Code", monospace;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  margin: 0 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  header {
+    padding: 40px 16px 24px;
+  }
+  
+  header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .controls {
+    gap: 16px;
+  }
+  
+  .search-container {
+    max-width: 100%;
+  }
+  
+  .search-input {
+    padding: 14px 44px 14px 48px;
+    font-size: 0.95rem;
+  }
+  
+  .timezone-selector {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .timezone-select {
+    width: 100%;
+    text-align: center;
+  }
+  
+  main {
+    padding: 0 16px 40px;
+  }
+  
+  .home-clock-card {
+    padding: 28px 20px 24px;
+  }
+  
+  .home-clock-card .clock-time {
+    font-size: 3rem;
+  }
+  
+  .home-clock-card .city {
+    font-size: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.25rem;
+  }
+  
+  .clocks-grid {
+    gap: 16px;
+  }
+  
+  .clock-card {
+    padding: 24px 20px;
+  }
+  
+  .clock-time {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 30px 16px 20px;
+  }
+  
+  header h1 {
+    font-size: 1.8rem;
+  }
+  
+  header .subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+  
+  .controls {
+    gap: 14px;
+  }
+  
+  .home-clock-card {
+    padding: 24px 18px 20px;
+  }
+  
+  .home-clock-card .clock-time {
+    font-size: 2.5rem;
+  }
+  
+  .home-clock-card .city {
+    font-size: 1.3rem;
+  }
+  
+  .clocks-grid {
+    gap: 12px;
+    grid-template-columns: 1fr;
+  }
+  
+  .clock-card {
+    padding: 22px 18px;
+    border-radius: var(--radius-md);
+  }
+  
+  .clock-location .city {
+    font-size: 1.05rem;
+  }
+  
+  .clock-time {
+    font-size: 2rem;
+  }
+  
+  footer {
+    padding: 20px 16px;
+    font-size: 0.85rem;
+  }
+  
+  footer kbd {
+    font-size: 0.8rem;
+    padding: 2px 6px;
+  }
+}
+
+/* Smooth scroll for touch */
+@media (hover: hover) and (pointer: fine) {
+  .clock-card {
+    will-change: transform;
+  }
+}
